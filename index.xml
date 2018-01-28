@@ -2,41 +2,41 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cijliu</title>
-    <link>http://linweiliu.github.io/</link>
+    <link>https://linweiliu.github.io/</link>
     <description>Recent content on cijliu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce.</copyright>
-    <lastBuildDate>Sun, 21 Jan 2018 17:52:01 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 09 Apr 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://linweiliu.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://linweiliu.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Link</title>
-      <link>http://linweiliu.github.io/links/</link>
-      <pubDate>Sun, 21 Jan 2018 17:52:01 +0800</pubDate>
+      <title>Links</title>
+      <link>https://linweiliu.github.io/links/</link>
+      <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://linweiliu.github.io/links/</guid>
-      <description></description>
+      <guid>https://linweiliu.github.io/links/</guid>
+      <description>Ritchie and his friends.</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>http://linweiliu.github.io/about/</link>
+      <link>https://linweiliu.github.io/about/</link>
       <pubDate>Sun, 21 Jan 2018 15:42:10 +0800</pubDate>
       
-      <guid>http://linweiliu.github.io/about/</guid>
+      <guid>https://linweiliu.github.io/about/</guid>
       <description> Hello by cijliu </description>
     </item>
     
     <item>
-      <title>Welcome</title>
-      <link>http://linweiliu.github.io/post/welcome/</link>
+      <title>博客计划</title>
+      <link>https://linweiliu.github.io/post/readme/</link>
       <pubDate>Sun, 21 Jan 2018 15:42:37 +0800</pubDate>
       
-      <guid>http://linweiliu.github.io/post/welcome/</guid>
-      <description> Welcome to cijliu&amp;rsquo;s site. </description>
+      <guid>https://linweiliu.github.io/post/readme/</guid>
+      <description> 为什么写作  知识归档 思维整理 兴趣使然  确认目标  每个月更新至少1篇文章； 内容不限，但主要是专业性文章； 博客新功能的开发(低优先级)；  </description>
     </item>
     
   </channel>
