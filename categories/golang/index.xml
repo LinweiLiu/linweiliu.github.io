@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on cijliu</title>
-    <link>http://linweiliu.github.io/post/</link>
-    <description>Recent content in Posts on cijliu</description>
+    <title>Golang on cijliu</title>
+    <link>http://linweiliu.github.io/categories/golang/</link>
+    <description>Recent content in Golang on cijliu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce.</copyright>
     <lastBuildDate>Sat, 03 Feb 2018 09:45:40 +0800</lastBuildDate>
     
-	<atom:link href="http://linweiliu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://linweiliu.github.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -35,15 +35,6 @@
 计划周期  启动时间：2月1日
  时间安排：一周5小时 文档输出时间：一周一稿
   </description>
-    </item>
-    
-    <item>
-      <title>博客计划</title>
-      <link>http://linweiliu.github.io/post/readme/</link>
-      <pubDate>Sun, 21 Jan 2018 15:42:37 +0800</pubDate>
-      
-      <guid>http://linweiliu.github.io/post/readme/</guid>
-      <description> 为什么写作  知识归档 思维整理 兴趣使然  确认目标  每个月更新至少1篇文章； 内容不限，但主要是专业性文章； 博客新功能的开发(低优先级)；  </description>
     </item>
     
   </channel>

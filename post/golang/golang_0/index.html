@@ -5,9 +5,7 @@
   <meta charset="utf-8" />
 
   
-  <title>
-  About | cijliu&#39;s blog
-</title>
+  <title>Golang语言</title>
 
   
   
@@ -18,20 +16,37 @@
 
   
   <meta name="author" content="cijliu" />
-  <meta name="description" content="" />
+  <meta name="description" content=" 序  每年一门新语言，今年准备开始学习Golang语言，这是Google使用的内部开发语言，目前已经开源出来，大体浏览了一遍语言特性，一下子就被这门语言给吸引了，对于使用C/C&#43;&#43;长达十一年的自己来说，这门语言给我有如同被针扎了十多年，终于能够把针取出来的愉悦感，再详细地了解这门开源语言的现状后，不管从最基础的编译器还是开源项目维护管理，甚至是社区氛围，我想我应该学习他。
+ 目标 1.熟悉语法特性
+2.基于WEB方向进行深入学习
+计划周期  启动时间：2月1日
+ 时间安排：一周5小时 文档输出时间：一周一稿
+  " />
 
   
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:site" content="@gohugoio" />
-  <meta name="twitter:title" content="cijliu&#39;s blog" />
-  <meta name="twitter:description" content="" />
-  <meta name="twitter:image" content="http://linweiliu.github.io/img/avatar.jpg" />
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gohugoio" />
+    <meta name="twitter:title" content="Golang语言" />
+    <meta name="twitter:description" content=" 序  每年一门新语言，今年准备开始学习Golang语言，这是Google使用的内部开发语言，目前已经开源出来，大体浏览了一遍语言特性，一下子就被这门语言给吸引了，对于使用C/C&#43;&#43;长达十一年的自己来说，这门语言给我有如同被针扎了十多年，终于能够把针取出来的愉悦感，再详细地了解这门开源语言的现状后，不管从最基础的编译器还是开源项目维护管理，甚至是社区氛围，我想我应该学习他。
+ 目标 1.熟悉语法特性
+2.基于WEB方向进行深入学习
+计划周期  启动时间：2月1日
+ 时间安排：一周5小时 文档输出时间：一周一稿
+  " />
+    <meta name="twitter:image" content="http://linweiliu.github.io/img/avatar.jpg" />
+  
 
   
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="cijliu&#39;s blog" />
-  <meta property="og:description" content="" />
-  <meta property="og:url" content="http://linweiliu.github.io/about/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Golang语言" />
+  <meta property="og:description" content=" 序  每年一门新语言，今年准备开始学习Golang语言，这是Google使用的内部开发语言，目前已经开源出来，大体浏览了一遍语言特性，一下子就被这门语言给吸引了，对于使用C/C&#43;&#43;长达十一年的自己来说，这门语言给我有如同被针扎了十多年，终于能够把针取出来的愉悦感，再详细地了解这门开源语言的现状后，不管从最基础的编译器还是开源项目维护管理，甚至是社区氛围，我想我应该学习他。
+ 目标 1.熟悉语法特性
+2.基于WEB方向进行深入学习
+计划周期  启动时间：2月1日
+ 时间安排：一周5小时 文档输出时间：一周一稿
+  " />
+  <meta property="og:url" content="http://linweiliu.github.io/post/golang/golang_0/" />
   <meta property="og:image" content="http://linweiliu.github.io/img/avatar.jpg" />
 
 
@@ -40,7 +55,7 @@
 <meta name="generator" content="Hugo 0.33" />
 
 
-<link rel="canonical" href="http://linweiliu.github.io/about/" />
+<link rel="canonical" href="http://linweiliu.github.io/post/golang/golang_0/" />
 <link rel="alternative" href="/index.xml" title="cijliu" type="application/atom+xml" />
 
 
@@ -104,6 +119,10 @@
     <div class="suspension">
       <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
       
+        
+        <a title="Go to comments" class="to-comment" href="#disqus_thread"><span class="icon icon-comment"></span></a>
+        
+      
     </div>
     
     
@@ -126,6 +145,8 @@
         <li class="menu-item
             
             
+            
+              is-active
             ">
             <a href="/">Home</a>
           </li>
@@ -152,8 +173,6 @@
           </li>
       
         <li class="menu-item
-            
-              is-active
             
             
             ">
@@ -221,12 +240,36 @@
 
   <section class="main post-detail">
     <header class="post-header">
-      <h1 class="post-title">About</h1>
+      <h1 class="post-title">Golang语言</h1>
+      <p class="post-meta">@cijliu · Jan 30, 2018 · 1 min read</p>
     </header>
     <article class="post-content">
 
-<h3 id="hello-by-cijliu">Hello by cijliu</h3>
+<h2 id="序"><strong>序</strong></h2>
+
+<blockquote>
+<p>每年一门新语言，今年准备开始学习Golang语言，这是Google使用的内部开发语言，目前已经开源出来，大体浏览了一遍语言特性，一下子就被这门语言给吸引了，对于使用C/C++长达十一年的自己来说，这门语言给我有如同被针扎了十多年，终于能够把针取出来的愉悦感，再详细地了解这门开源语言的现状后，不管从最基础的编译器还是开源项目维护管理，甚至是社区氛围，我想我应该学习他。</p>
+</blockquote>
+
+<h2 id="目标"><strong>目标</strong></h2>
+
+<p>1.熟悉语法特性<br />
+2.基于WEB方向进行深入学习</p>
+
+<h2 id="计划周期"><strong>计划周期</strong></h2>
+
+<ul>
+<li><strong>启动时间：2月1日</strong><br /></li>
+<li><strong>时间安排：一周5小时</strong></li>
+<li><strong>文档输出时间：一周一稿</strong><br /></li>
+</ul>
 </article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        © This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce.
+      </p>
+    </footer>
     
       <div id="disqus_thread"></div>
 <script>
