@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on cijliu</title>
-    <link>http://linweiliu.github.io/categories/</link>
+    <link>https://linweiliu.github.io/categories/</link>
     <description>Recent content in Categories on cijliu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce.</copyright>
     
-	<atom:link href="http://linweiliu.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://linweiliu.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Golang</title>
-      <link>http://linweiliu.github.io/categories/golang/</link>
+      <link>https://linweiliu.github.io/categories/golang/</link>
       <pubDate>Sat, 03 Feb 2018 09:45:40 +0800</pubDate>
       
-      <guid>http://linweiliu.github.io/categories/golang/</guid>
+      <guid>https://linweiliu.github.io/categories/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Readme</title>
-      <link>http://linweiliu.github.io/categories/readme/</link>
+      <link>https://linweiliu.github.io/categories/readme/</link>
       <pubDate>Sun, 21 Jan 2018 15:42:37 +0800</pubDate>
       
-      <guid>http://linweiliu.github.io/categories/readme/</guid>
+      <guid>https://linweiliu.github.io/categories/readme/</guid>
       <description></description>
     </item>
     

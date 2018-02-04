@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Golang on cijliu</title>
-    <link>http://linweiliu.github.io/categories/golang/</link>
+    <link>https://linweiliu.github.io/categories/golang/</link>
     <description>Recent content in Golang on cijliu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce.</copyright>
     <lastBuildDate>Sat, 03 Feb 2018 09:45:40 +0800</lastBuildDate>
     
-	<atom:link href="http://linweiliu.github.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://linweiliu.github.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Go 起源</title>
-      <link>http://linweiliu.github.io/post/golang/golang_1/</link>
+      <link>https://linweiliu.github.io/post/golang/golang_1/</link>
       <pubDate>Sat, 03 Feb 2018 09:45:40 +0800</pubDate>
       
-      <guid>http://linweiliu.github.io/post/golang/golang_1/</guid>
+      <guid>https://linweiliu.github.io/post/golang/golang_1/</guid>
       <description>21世纪的C语言 编程语言的发展如同生物进化，我们不断地吸取前者的优秀设计哲学思想，然后创造出一门新的开发语言，随着项目规模和涉及的领域不断延伸，不同的编程语言朝着各自擅长的领域进行演化，最终又是取各家之所长，又衍生出一门新的编程语言。或许某天语言都具有自我进化的特性，那现在的所有语言都将成为历史，不管他们现在被称作什么语言，最终都将成为历史，程序员再也不用再为什么语言最好而内斗起争执。
 好吧，扯远了，来说说Go语言，对于使用C语言长达十年时间的本人来说，嗯，为什么不用C++？原因很简单，一千个C++程序员眼里就有一千种C++代码，而C语言却是Only one。如果没有约定俗成的使用GNU等一些开源项目的代码指南去写项目代码，那对后续代码的接管者来说简直就是噩梦！再回到Go语言本身来说，从1960年到现在整个编程语言的演变，Go语言可以说是目前取各家之所长，并拥有高贵血统的新一代开发语言，最最最重要的一点是他是开源的，只要你有肯研究，你可以知道所有的实现细节，对我来说真的有种说不出来的快感，阅读代码有时候就像在看一本有思维的书，好的坏的都将成为你的经验。
 而Go语言从C语言基础上进行设计，加上目前编程语言的各种优秀设计思想，更是支持嵌入式交叉编译，太多优点让人没有理由不是学习。这篇算是我的Go语言学习之路的开篇吐槽，接下来就是我的Go语言学习计划。</description>
@@ -25,10 +25,10 @@
     
     <item>
       <title>Golang语言</title>
-      <link>http://linweiliu.github.io/post/golang/golang_0/</link>
+      <link>https://linweiliu.github.io/post/golang/golang_0/</link>
       <pubDate>Tue, 30 Jan 2018 09:06:40 +0800</pubDate>
       
-      <guid>http://linweiliu.github.io/post/golang/golang_0/</guid>
+      <guid>https://linweiliu.github.io/post/golang/golang_0/</guid>
       <description> 序  每年一门新语言，今年准备开始学习Golang语言，这是Google使用的内部开发语言，目前已经开源出来，大体浏览了一遍语言特性，一下子就被这门语言给吸引了，对于使用C/C++长达十一年的自己来说，这门语言给我有如同被针扎了十多年，终于能够把针取出来的愉悦感，再详细地了解这门开源语言的现状后，不管从最基础的编译器还是开源项目维护管理，甚至是社区氛围，我想我应该学习他。
  目标 1.熟悉语法特性
 2.基于WEB方向进行深入学习
