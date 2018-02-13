@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>NAT类型搭建指南</title>
+
+  
+  
+
+
+
+
+
+  
+  <meta name="author" content="cijliu" />
+  <meta name="description" content="NAT类型搭建指南  1990年代中期，NAT是作为一种解决IPv4地址短缺以避免保留IP地址困难的方案而流行起来的，由于互联网的普及，NAT就成了家庭和小型办公室网络连接上的路由器的一个标准特征，因为对他们来说，申请独立的IP地址的代价要高于所带来的效益，但是，NAT也让主机之间的通信变得复杂，导致了通信效率的降低，为了提高通信效率，需要对NAT进行内网穿透实现P2P通信，在此之前，需要搭建一套完整的NAT环境，本文目的就是为了完成该任务而撰写。
+ 预备知识 为了搭建一套完整NAT环境，你需要知道的：
+ NAT类型 Linux网络数据包管理指令iptables RFC 3489 STUN相关标准协议  下面将对上述知识进行简要教学，如果已经熟知请跳过。
+NAT类型 根据UDP传输过程中，NAT处理的差别，将NAT分为四种类型：
+ 全锥型(Full Cone)  只要外部主机获取到全锥型NAT主机的外网IP和Port就能够与处于NAT后的内网主机进行网络通信。
+ 限制锥型(Restricted Cone)  外部主机获取到该类型主机的IP和Port信息，还需要该类型主机主动向外部主机发送网络包并在超时时间内，外部主机才有权限根据IP和Port信息使用任意端口Port与其建立连接。
+ 端口限制锥型(Port Restricted Cone) 在限制锥型的条件下，外部主机只能用该类型主机主动发过请求的端口号Port来与其建立连接。
+ 对称型(Symmetric)
+  两个外部主机获取到该类型主机的端口号Port不一样，第三个外部主机无法根据前面两个外部主机获取的IP和Port信息与其建立连接，并且每次该类型主机向外发起一次连接使用的IP和Port将会随机分配。
+如果想了解更像详细的信息，请参见RFC 3489
+Linux网络数据包管理指令iptables Linux使用iptables来管理网络数据包的流向，iptables是以tables、chains和rules来控制网络包的流向，具体流向关系图：
+iptables就是根据该关系对数据包进行派送和转发，其中nat表就是NAT服务器的规则表格。这里仅仅介绍iptables的机制流程，具体操作和使用教学参见 鸟哥的Linux私房菜 Linux防火墙与NAT服务器
+RFC 3489 STUN相关标准协议 STUN是一个协助NAT穿透的服务器，根据RFC 3489协议描述的穿透方案进行设计，主要进行如下几层判断：
+ TEST1: Client发送UDP包到Server1，要求Server1返回Client的IP和Port信息，Client对比本地和Server1返回包的信息，信息一致则无NAT服务进入防火墙判断，否则存在NAT服务进入NAT类型判断 TEST2: Client发送UDP包到Server1，要求Server1使用Server2把IP和Port信息返回，Client接收到则该NAT为Full Cone NAT, 否则进入TEST1测试，如果IP和Port信息与之前TEST1不一致则为Symmetric NAT TEST3: Client发送UDP包到Server1，要求Server1使用另外的端口Port把IP和Port信息返回，Client收到则该NAT为Restricted Cone NAT， 否则为Port Restricted Cone NAT  NAT服务器搭建  在对NAT相关知识有了一定了解后，在Linux下搭建一套完整的NAT服务成为了可能，这里我们使用iptables来进行搭建。" />
+
+  
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gohugoio" />
+    <meta name="twitter:title" content="NAT类型搭建指南" />
+    <meta name="twitter:description" content="NAT类型搭建指南  1990年代中期，NAT是作为一种解决IPv4地址短缺以避免保留IP地址困难的方案而流行起来的，由于互联网的普及，NAT就成了家庭和小型办公室网络连接上的路由器的一个标准特征，因为对他们来说，申请独立的IP地址的代价要高于所带来的效益，但是，NAT也让主机之间的通信变得复杂，导致了通信效率的降低，为了提高通信效率，需要对NAT进行内网穿透实现P2P通信，在此之前，需要搭建一套完整的NAT环境，本文目的就是为了完成该任务而撰写。
+ 预备知识 为了搭建一套完整NAT环境，你需要知道的：
+ NAT类型 Linux网络数据包管理指令iptables RFC 3489 STUN相关标准协议  下面将对上述知识进行简要教学，如果已经熟知请跳过。
+NAT类型 根据UDP传输过程中，NAT处理的差别，将NAT分为四种类型：
+ 全锥型(Full Cone)  只要外部主机获取到全锥型NAT主机的外网IP和Port就能够与处于NAT后的内网主机进行网络通信。
+ 限制锥型(Restricted Cone)  外部主机获取到该类型主机的IP和Port信息，还需要该类型主机主动向外部主机发送网络包并在超时时间内，外部主机才有权限根据IP和Port信息使用任意端口Port与其建立连接。
+ 端口限制锥型(Port Restricted Cone) 在限制锥型的条件下，外部主机只能用该类型主机主动发过请求的端口号Port来与其建立连接。
+ 对称型(Symmetric)
+  两个外部主机获取到该类型主机的端口号Port不一样，第三个外部主机无法根据前面两个外部主机获取的IP和Port信息与其建立连接，并且每次该类型主机向外发起一次连接使用的IP和Port将会随机分配。
+如果想了解更像详细的信息，请参见RFC 3489
+Linux网络数据包管理指令iptables Linux使用iptables来管理网络数据包的流向，iptables是以tables、chains和rules来控制网络包的流向，具体流向关系图：
+iptables就是根据该关系对数据包进行派送和转发，其中nat表就是NAT服务器的规则表格。这里仅仅介绍iptables的机制流程，具体操作和使用教学参见 鸟哥的Linux私房菜 Linux防火墙与NAT服务器
+RFC 3489 STUN相关标准协议 STUN是一个协助NAT穿透的服务器，根据RFC 3489协议描述的穿透方案进行设计，主要进行如下几层判断：
+ TEST1: Client发送UDP包到Server1，要求Server1返回Client的IP和Port信息，Client对比本地和Server1返回包的信息，信息一致则无NAT服务进入防火墙判断，否则存在NAT服务进入NAT类型判断 TEST2: Client发送UDP包到Server1，要求Server1使用Server2把IP和Port信息返回，Client接收到则该NAT为Full Cone NAT, 否则进入TEST1测试，如果IP和Port信息与之前TEST1不一致则为Symmetric NAT TEST3: Client发送UDP包到Server1，要求Server1使用另外的端口Port把IP和Port信息返回，Client收到则该NAT为Restricted Cone NAT， 否则为Port Restricted Cone NAT  NAT服务器搭建  在对NAT相关知识有了一定了解后，在Linux下搭建一套完整的NAT服务成为了可能，这里我们使用iptables来进行搭建。" />
+    <meta name="twitter:image" content="https://linweiliu.github.io/img/avatar.jpg" />
+  
+
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="NAT类型搭建指南" />
+  <meta property="og:description" content="NAT类型搭建指南  1990年代中期，NAT是作为一种解决IPv4地址短缺以避免保留IP地址困难的方案而流行起来的，由于互联网的普及，NAT就成了家庭和小型办公室网络连接上的路由器的一个标准特征，因为对他们来说，申请独立的IP地址的代价要高于所带来的效益，但是，NAT也让主机之间的通信变得复杂，导致了通信效率的降低，为了提高通信效率，需要对NAT进行内网穿透实现P2P通信，在此之前，需要搭建一套完整的NAT环境，本文目的就是为了完成该任务而撰写。
+ 预备知识 为了搭建一套完整NAT环境，你需要知道的：
+ NAT类型 Linux网络数据包管理指令iptables RFC 3489 STUN相关标准协议  下面将对上述知识进行简要教学，如果已经熟知请跳过。
+NAT类型 根据UDP传输过程中，NAT处理的差别，将NAT分为四种类型：
+ 全锥型(Full Cone)  只要外部主机获取到全锥型NAT主机的外网IP和Port就能够与处于NAT后的内网主机进行网络通信。
+ 限制锥型(Restricted Cone)  外部主机获取到该类型主机的IP和Port信息，还需要该类型主机主动向外部主机发送网络包并在超时时间内，外部主机才有权限根据IP和Port信息使用任意端口Port与其建立连接。
+ 端口限制锥型(Port Restricted Cone) 在限制锥型的条件下，外部主机只能用该类型主机主动发过请求的端口号Port来与其建立连接。
+ 对称型(Symmetric)
+  两个外部主机获取到该类型主机的端口号Port不一样，第三个外部主机无法根据前面两个外部主机获取的IP和Port信息与其建立连接，并且每次该类型主机向外发起一次连接使用的IP和Port将会随机分配。
+如果想了解更像详细的信息，请参见RFC 3489
+Linux网络数据包管理指令iptables Linux使用iptables来管理网络数据包的流向，iptables是以tables、chains和rules来控制网络包的流向，具体流向关系图：
+iptables就是根据该关系对数据包进行派送和转发，其中nat表就是NAT服务器的规则表格。这里仅仅介绍iptables的机制流程，具体操作和使用教学参见 鸟哥的Linux私房菜 Linux防火墙与NAT服务器
+RFC 3489 STUN相关标准协议 STUN是一个协助NAT穿透的服务器，根据RFC 3489协议描述的穿透方案进行设计，主要进行如下几层判断：
+ TEST1: Client发送UDP包到Server1，要求Server1返回Client的IP和Port信息，Client对比本地和Server1返回包的信息，信息一致则无NAT服务进入防火墙判断，否则存在NAT服务进入NAT类型判断 TEST2: Client发送UDP包到Server1，要求Server1使用Server2把IP和Port信息返回，Client接收到则该NAT为Full Cone NAT, 否则进入TEST1测试，如果IP和Port信息与之前TEST1不一致则为Symmetric NAT TEST3: Client发送UDP包到Server1，要求Server1使用另外的端口Port把IP和Port信息返回，Client收到则该NAT为Restricted Cone NAT， 否则为Port Restricted Cone NAT  NAT服务器搭建  在对NAT相关知识有了一定了解后，在Linux下搭建一套完整的NAT服务成为了可能，这里我们使用iptables来进行搭建。" />
+  <meta property="og:url" content="https://linweiliu.github.io/post/nat_type_build_guide/" />
+  <meta property="og:image" content="https://linweiliu.github.io/img/avatar.jpg" />
+
+
+
+
+<meta name="generator" content="Hugo 0.33" />
+
+
+<link rel="canonical" href="https://linweiliu.github.io/post/nat_type_build_guide/" />
+<link rel="alternative" href="/index.xml" title="cijliu" type="application/atom+xml" />
+
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+
+
+<meta name="robots" content="index,follow" />
+<meta name="referrer" content="origin-when-cross-origin" />
+
+
+
+
+
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="cijliu" />
+<meta name="msapplication-tooltip" content="cijliu" />
+<meta name='msapplication-navbutton-color' content="#5fbf5e" />
+<meta name="msapplication-TileColor" content="#5fbf5e" />
+<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
+<link rel="icon" href="/img/favicon.ico" />
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+<link rel="icon" sizes="192x192" href="/img/touch-icon-android.png" />
+<link rel="apple-touch-icon" href="/img/touch-icon-apple.png" />
+<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5fbf5e" />
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
+<link rel="stylesheet" href="/css/bundle.css" />
+
+
+  
+  <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
+  <![endif]-->
+
+<!--[if lte IE 11]>
+    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+
+<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
+      
+        
+        <a title="Go to comments" class="to-comment" href="#disqus_thread"><span class="icon icon-comment"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="/img/avatar.jpg" alt="Avatar">
+  
+  <h2 class="title">cijliu</h2>
+  
+  <p class="subtitle">Free is not free.</p>
+  <button class="menu-toggle" type="button">
+    <span class="icon icon-menu"></span>
+  </button>
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+            
+            
+            
+              is-active
+            ">
+            <a href="/">Home</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="https://github.com/linweiliu">Works</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="/categories/">Categories</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="/links/">Links</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="/about/">about</a>
+          </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list">
+
+      
+      <li class="social-item">
+        <a href="mailto:nothingliulw@gmail.com" title="Email"><span class="icon icon-email"></span></a>
+      </li>
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
+      </li>
+
+    </ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">NAT类型搭建指南</h1>
+      <p class="post-meta">@cijliu · Feb 13, 2018 · 1 min read</p>
+    </header>
+    <article class="post-content">
+
+<h1 id="nat类型搭建指南">NAT类型搭建指南</h1>
+
+<blockquote>
+<p>1990年代中期，NAT是作为一种解决IPv4地址短缺以避免保留IP地址困难的方案而流行起来的，由于互联网的普及，NAT就成了家庭和小型办公室网络连接上的路由器的一个标准特征，因为对他们来说，申请独立的IP地址的代价要高于所带来的效益，但是，NAT也让主机之间的通信变得复杂，导致了通信效率的降低，为了提高通信效率，需要对NAT进行内网穿透实现P2P通信，在此之前，需要搭建一套完整的NAT环境，本文目的就是为了完成该任务而撰写。</p>
+</blockquote>
+
+<h2 id="预备知识">预备知识</h2>
+
+<p>为了搭建一套完整NAT环境，你需要知道的：</p>
+
+<ul>
+<li><strong>NAT类型</strong></li>
+<li><strong>Linux网络数据包管理指令iptables</strong></li>
+<li><strong>RFC 3489 STUN相关标准协议</strong></li>
+</ul>
+
+<p>下面将对上述知识进行简要教学，如果已经熟知请跳过。</p>
+
+<h3 id="nat类型">NAT类型</h3>
+
+<p>根据UDP传输过程中，NAT处理的差别，将NAT分为四种类型：</p>
+
+<ul>
+<li><strong>全锥型(Full Cone)</strong></li>
+</ul>
+
+<p>只要外部主机获取到全锥型NAT主机的外网IP和Port就能够与处于NAT后的内网主机进行网络通信。</p>
+
+<ul>
+<li><strong>限制锥型(Restricted Cone)</strong></li>
+</ul>
+
+<p>外部主机获取到该类型主机的IP和Port信息，还需要该类型主机主动向外部主机发送网络包并在超时时间内，外部主机才有权限根据IP和Port信息使用任意端口Port与其建立连接。</p>
+
+<ul>
+<li><p><strong>端口限制锥型(Port Restricted Cone)</strong>
+在限制锥型的条件下，外部主机只能用该类型主机主动发过请求的端口号Port来与其建立连接。</p></li>
+
+<li><p><strong>对称型(Symmetric)</strong></p></li>
+</ul>
+
+<p>两个外部主机获取到该类型主机的端口号Port不一样，第三个外部主机无法根据前面两个外部主机获取的IP和Port信息与其建立连接，并且每次该类型主机向外发起一次连接使用的IP和Port将会随机分配。</p>
+
+<p>如果想了解更像详细的信息，请参见<a href="https://www.ietf.org/rfc/rfc3489.txt">RFC 3489</a></p>
+
+<h3 id="linux网络数据包管理指令iptables">Linux网络数据包管理指令iptables</h3>
+
+<p>Linux使用iptables来管理网络数据包的流向，iptables是以tables、chains和rules来控制网络包的流向，具体流向关系图：</p>
+
+<p><img src="/media/images/NAT/iptables_03.gif" alt="iptables_03" /></p>
+
+<p>iptables就是根据该关系对数据包进行派送和转发，其中nat表就是NAT服务器的规则表格。这里仅仅介绍iptables的机制流程，具体操作和使用教学参见 <a href="http://cn.linux.vbird.org/linux_server/0250simple_firewall.php">鸟哥的Linux私房菜 Linux防火墙与NAT服务器</a></p>
+
+<h3 id="rfc-3489-stun相关标准协议">RFC 3489 STUN相关标准协议</h3>
+
+<p>STUN是一个协助NAT穿透的服务器，根据RFC 3489协议描述的穿透方案进行设计，主要进行如下几层判断：</p>
+
+<p><img src="/media/images/NAT/STUN_algorithm.png" alt="STUN_algorithm" /></p>
+
+<ol>
+<li><strong>TEST1:</strong> Client发送UDP包到Server1，要求Server1返回Client的IP和Port信息，Client对比本地和Server1返回包的信息，信息一致则无NAT服务进入防火墙判断，否则存在NAT服务进入NAT类型判断</li>
+<li><strong>TEST2:</strong> Client发送UDP包到Server1，要求Server1使用Server2把IP和Port信息返回，Client接收到则该NAT为<strong>Full Cone NAT</strong>, 否则进入<strong>TEST1</strong>测试，如果IP和Port信息与之前<strong>TEST1</strong>不一致则为<strong>Symmetric NAT</strong></li>
+<li><strong>TEST3:</strong> Client发送UDP包到Server1，要求Server1使用另外的端口Port把IP和Port信息返回，Client收到则该NAT为<strong>Restricted Cone NAT</strong>， 否则为<strong>Port Restricted Cone NAT</strong></li>
+</ol>
+
+<hr />
+
+<h2 id="nat服务器搭建">NAT服务器搭建</h2>
+
+<blockquote>
+<p>在对NAT相关知识有了一定了解后，在Linux下搭建一套完整的NAT服务成为了可能，这里我们使用iptables来进行搭建。</p>
+
+<p><strong>变量：</strong></p>
+
+<p>PUBLIC_IP=66.112.215.237<br />
+PRIVATE_IP=172.17.0.7<br />
+PUBLIC_INTERFACE=eth0</p>
+
+<p>设置前需情况规则：</p>
+
+<p>sudo iptables -F -t nat<br />
+sudo iptables -F</p>
+</blockquote>
+
+<ul>
+<li>全锥型</li>
+</ul>
+
+<pre><code>  sudo iptables -t nat -A POSTROUTING -o $PUBLIC_INTERFACE -j SNAT --to-source $PUBLIC_IP 
+  sudo iptables -t nat -A PREROUTING -i $PUBLIC_INTERFACE -j DNAT --to-destination $PRIVATE_IP
+</code></pre>
+
+<ul>
+<li>限制锥型</li>
+</ul>
+
+<pre><code>  sudo iptables -t nat -A POSTROUTING -o $PUBLIC_INTERFACE -j SNAT --to-source $PUBLIC_IP
+  sudo iptables -t nat -A PREROUTING -i $PUBLIC_INTERFACE -j DNAT --to-destination $PRIVATE_IP 
+  sudo iptables -A FORWARD -i $PUBLIC_INTERFACE -m state --state ESTABLISHED,RELATED -j ACCEPT
+  sudo iptables -A FORWARD   -s 139.162.62.29 -j ACCEPT #139.162.62.29 STUN服务器地址，允许通过
+  sudo iptables -A FORWARD   -d $PRIVATE_IP  -m state --state NEW -j DROP
+</code></pre>
+
+<ul>
+<li><p>端口限制锥型</p>
+
+<pre><code>sudo iptables -t nat -A POSTROUTING -o $PUBLIC_INTERFACE -j SNAT --to-source $PUBLIC_IP
+</code></pre></li>
+
+<li><p>对称型</p>
+
+<pre><code>sudo iptables -t nat -A POSTROUTING -o $PUBLIC_INTERFACE -j MASQUERADE --random
+</code></pre>
+
+<h3 id="类型测试">类型测试</h3></li>
+</ul>
+
+<p>使用Python编写RFC3489协议STUN逻辑业务进行NAT类型判断，这里在<a href="https://github.com/jtriley/pystun">pystun</a>开源工具上进行修改，该工具用来检测NAT类型，目前已经停止维护，代码BUG未能及时修复，只能自行根据RFC3489 STUN协议对代码进行审核，这里使用stun.pjsip.org作为STUN服务器，根据抓包工具Wireshark来进行分析该STUN的逻辑，如图：</p>
+
+<p><img src="/media/images/NAT/stun.jpg" alt="stun" /></p>
+
+<p>根据STUN服务器的业务流程，使用iptables对网络包进行筛选从而实现NAT类型的变换，不同的STUN服务器对IP和Port的使用存在差异可能导致类型检测出错，所以请熟悉RFC3489协议根据STUN服务器的流程进行判决NAT类型。</p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        © This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce.
+      </p>
+    </footer>
+    
+      <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "cijliu" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+    
+  </section>
+  <footer class="site-footer">
+  <p>© 2017-2018 cijliu</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
+  
+</footer>
+
+
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+<script src="/js/bundle.js"></script>
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-112818710-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+  </body>
+</html>
