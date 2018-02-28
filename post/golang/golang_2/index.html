@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Golang程序结构</title>
+
+  
+  
+
+
+
+
+
+  
+  <meta name="author" content="cijliu" />
+  <meta name="description" content="程序示例详解 /* FileName: helloworld.go * Author: cijliu */ /* 打包，这里main包是一个特殊包，定义了一个独立可执行的程序，而不是一个库或模块 */ package main /* 导入包， 这里导入fmt包，这是个Golang官方提供的输入输出包 */ import ( &amp;#34;fmt&amp;#34; ) /* 声明变量，Golang声明变量的结构方式： * var 变量名 变量类型 = 变量值 * 这里把声明统一放在一个地方。 */ var ( StringHelloWorld string = &amp;#34;Hello World!&amp;#34; i int = 0 //未使用 ) /* main函数作为程序执行的入口函数 */ func main(){ /* 打印一行，fmt是包名，Println是fmt包内函数 */ fmt.Println(StringHelloWorld) } 整个Golang程序的结构大致如此，进行编译，这里可以先运行试试看结果，在cmd下执行
+ go run helloworld.go
+ 输出结果
+ Hello World!
+ 若想编译生成二进制可执行文件，在cmd下执行
+ go build helloworld." />
+
+  
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gohugoio" />
+    <meta name="twitter:title" content="Golang程序结构" />
+    <meta name="twitter:description" content="程序示例详解 /* FileName: helloworld.go * Author: cijliu */ /* 打包，这里main包是一个特殊包，定义了一个独立可执行的程序，而不是一个库或模块 */ package main /* 导入包， 这里导入fmt包，这是个Golang官方提供的输入输出包 */ import ( &amp;#34;fmt&amp;#34; ) /* 声明变量，Golang声明变量的结构方式： * var 变量名 变量类型 = 变量值 * 这里把声明统一放在一个地方。 */ var ( StringHelloWorld string = &amp;#34;Hello World!&amp;#34; i int = 0 //未使用 ) /* main函数作为程序执行的入口函数 */ func main(){ /* 打印一行，fmt是包名，Println是fmt包内函数 */ fmt.Println(StringHelloWorld) } 整个Golang程序的结构大致如此，进行编译，这里可以先运行试试看结果，在cmd下执行
+ go run helloworld.go
+ 输出结果
+ Hello World!
+ 若想编译生成二进制可执行文件，在cmd下执行
+ go build helloworld." />
+    <meta name="twitter:image" content="https://linweiliu.github.io/img/avatar.jpg" />
+  
+
+  
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Golang程序结构" />
+  <meta property="og:description" content="程序示例详解 /* FileName: helloworld.go * Author: cijliu */ /* 打包，这里main包是一个特殊包，定义了一个独立可执行的程序，而不是一个库或模块 */ package main /* 导入包， 这里导入fmt包，这是个Golang官方提供的输入输出包 */ import ( &amp;#34;fmt&amp;#34; ) /* 声明变量，Golang声明变量的结构方式： * var 变量名 变量类型 = 变量值 * 这里把声明统一放在一个地方。 */ var ( StringHelloWorld string = &amp;#34;Hello World!&amp;#34; i int = 0 //未使用 ) /* main函数作为程序执行的入口函数 */ func main(){ /* 打印一行，fmt是包名，Println是fmt包内函数 */ fmt.Println(StringHelloWorld) } 整个Golang程序的结构大致如此，进行编译，这里可以先运行试试看结果，在cmd下执行
+ go run helloworld.go
+ 输出结果
+ Hello World!
+ 若想编译生成二进制可执行文件，在cmd下执行
+ go build helloworld." />
+  <meta property="og:url" content="https://linweiliu.github.io/post/golang/golang_2/" />
+  <meta property="og:image" content="https://linweiliu.github.io/img/avatar.jpg" />
+
+
+
+
+<meta name="generator" content="Hugo 0.33" />
+
+
+<link rel="canonical" href="https://linweiliu.github.io/post/golang/golang_2/" />
+<link rel="alternative" href="/index.xml" title="cijliu" type="application/atom+xml" />
+
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="format-detection" content="telephone=no,email=no,adress=no" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+
+
+<meta name="robots" content="index,follow" />
+<meta name="referrer" content="origin-when-cross-origin" />
+
+
+
+
+
+
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="cijliu" />
+<meta name="msapplication-tooltip" content="cijliu" />
+<meta name='msapplication-navbutton-color' content="#5fbf5e" />
+<meta name="msapplication-TileColor" content="#5fbf5e" />
+<meta name="msapplication-TileImage" content="/img/tile-image-windows.png" />
+<link rel="icon" href="/img/favicon.ico" />
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+<link rel="icon" sizes="192x192" href="/img/touch-icon-android.png" />
+<link rel="apple-touch-icon" href="/img/touch-icon-apple.png" />
+<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5fbf5e" />
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
+
+<link rel="stylesheet" href="/css/bundle.css" />
+
+
+  
+  <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/video.js/6.2.8/ie8/videojs-ie8.min.js"></script>
+  <![endif]-->
+
+<!--[if lte IE 11]>
+    <script src="//cdn.bootcss.com/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+
+<script src="//cdn.bootcss.com/object-fit-images/3.2.3/ofi.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/smooth-scroll/12.1.4/js/smooth-scroll.polyfills.min.js"></script>
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a title="Go to top" class="to-top is-hide"><span class="icon icon-up"></span></a>
+      
+        
+        <a title="Go to comments" class="to-comment" href="#disqus_thread"><span class="icon icon-comment"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="/img/avatar.jpg" alt="Avatar">
+  
+  <h2 class="title">cijliu</h2>
+  
+  <p class="subtitle">Free is not free.</p>
+  <button class="menu-toggle" type="button">
+    <span class="icon icon-menu"></span>
+  </button>
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+            
+            
+            
+              is-active
+            ">
+            <a href="/">Home</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="https://github.com/linweiliu">Works</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="/categories/">Categories</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="/links/">Links</a>
+          </li>
+      
+        <li class="menu-item
+            
+            
+            ">
+            <a href="/about/">about</a>
+          </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list">
+
+      
+      <li class="social-item">
+        <a href="mailto:nothingliulw@gmail.com" title="Email"><span class="icon icon-email"></span></a>
+      </li>
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <li class="social-item">
+        <a href="/index.xml"><span class="icon icon-rss" title="RSS"></span></a>
+      </li>
+
+    </ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Golang程序结构</h1>
+      <p class="post-meta">@cijliu · Feb 28, 2018 · 1 min read</p>
+    </header>
+    <article class="post-content">
+
+<h2 id="程序示例详解">程序示例详解</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">/* FileName: helloworld.go
+</span><span style="color:#75715e"> * Author: cijliu
+</span><span style="color:#75715e"> */</span>
+<span style="color:#75715e">/* 打包，这里main包是一个特殊包，定义了一个独立可执行的程序，而不是一个库或模块 */</span>
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span> 
+<span style="color:#75715e">/* 导入包， 这里导入fmt包，这是个Golang官方提供的输入输出包 */</span>
+<span style="color:#f92672">import</span> (
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+<span style="color:#75715e">/* 声明变量，Golang声明变量的结构方式：
+</span><span style="color:#75715e"> *     var 变量名 变量类型 = 变量值
+</span><span style="color:#75715e"> * 这里把声明统一放在一个地方。
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">var</span> (
+	<span style="color:#a6e22e">StringHelloWorld</span> <span style="color:#66d9ef">string</span> = <span style="color:#e6db74">&#34;Hello World!&#34;</span>
+    <span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span> = <span style="color:#ae81ff">0</span> <span style="color:#75715e">//未使用
+</span><span style="color:#75715e"></span>)
+<span style="color:#75715e">/* main函数作为程序执行的入口函数 */</span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
+    <span style="color:#75715e">/* 打印一行，fmt是包名，Println是fmt包内函数 */</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">StringHelloWorld</span>)
+}</code></pre></div>
+<p>整个Golang程序的结构大致如此，进行编译，这里可以先运行试试看结果，在cmd下执行</p>
+
+<blockquote>
+<p>go run helloworld.go</p>
+</blockquote>
+
+<p><strong>输出结果</strong></p>
+
+<blockquote>
+<p>Hello World!</p>
+</blockquote>
+
+<p>若想编译生成二进制可执行文件，在cmd下执行</p>
+
+<blockquote>
+<p>go build helloworld.go</p>
+</blockquote>
+
+<p>同目录下生成对应的helloworld可执行程序。</p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        © This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce.
+      </p>
+    </footer>
+    
+      <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "cijliu" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+    
+  </section>
+  <footer class="site-footer">
+  <p>© 2017-2018 cijliu</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank">Nuo</a>.</p>
+  
+</footer>
+
+
+
+<script async src="//cdn.bootcss.com/video.js/6.2.8/alt/video.novtt.min.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\[','\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+<script src="/js/bundle.js"></script>
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-112818710-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+  </body>
+</html>

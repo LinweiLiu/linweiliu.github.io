@@ -228,6 +228,24 @@
       
         <article class="post-entry">
   <header class="post-header">
+    <h3 class="post-title"><a href="https://linweiliu.github.io/post/golang/golang_2/" class="post-link">Golang程序结构</a></h3>
+    <p class="post-meta">@cijliu · Feb 28, 2018 · 1 min read</p>
+  </header>
+  
+  <p class="post-summary">程序示例详解 /* FileName: helloworld.go * Author: cijliu */ /* 打包，这里main包是一个特殊包，定义了一个独立可执行的程序，而不是一个库或模块 */ package main /* 导入包， 这里导入fmt包，这是个Golang官方提供的输入输出包 */ import ( &#34;fmt&#34; ) /* 声明变量，Golang声明变量的结构方式： * var 变量名 变量类型 = 变量值 * 这里把声明统一放在一个地方。 */ var ( StringHelloWorld string = &#34;Hello World!&#34; i int = 0 //未使用 ) /* main函数作为程序执行的入口函数 */ func main(){ /* 打印一行，fmt是包名，Println是fmt包内函数 */ fmt.Println(StringHelloWorld) } 整个Golang程序的结构大致如此，进行编译，这里可以先运行试试看结果，在cmd下执行
+ go run helloworld.go
+ 输出结果
+ Hello World!
+ 若想编译生成二进制可执行文件，在cmd下执行
+ go build helloworld.</p>
+  <footer class="post-footer">
+    <a class="read-more" href="https://linweiliu.github.io/post/golang/golang_2/">Read More →</a>
+  </footer>
+</article>
+
+      
+        <article class="post-entry">
+  <header class="post-header">
     <h3 class="post-title"><a href="https://linweiliu.github.io/post/golang/golang_1/" class="post-link">Go 起源</a></h3>
     <p class="post-meta">@cijliu · Feb 3, 2018 · 1 min read</p>
   </header>
